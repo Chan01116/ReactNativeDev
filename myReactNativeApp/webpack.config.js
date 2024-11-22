@@ -7,6 +7,8 @@ const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
   inject: 'body',
 })
 
+const connect = require('connect');
+
 module.exports = {
   entry: path.join(__dirname, 'index.web.js'),
   output: {
@@ -34,9 +36,12 @@ module.exports = {
   },
   plugins: [HTMLWebpackPluginConfig],
   devServer: {
-    open: true,
-    historyApiFallback: true,
-    contentBase: './',
-    hot: true,
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 9000,
+    app: () => connect(),
+    allowedHosts: 'all',
   },
 }
